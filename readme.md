@@ -47,7 +47,7 @@ To delet one or more messages, send a delete request to http://localhost:5000/us
 User_id defines which user is "signed in", and only messages received by this user can be deleted. The messages to be deleted is set in the query string using the argument "id", and one or more message id:s can be added here. 
 
 ### Example request:
-curl -X "DELETE" 'http://localhost:5000/user/{user_id}/message?id=id={id1}+{id2}+{id3}'
+curl -X "DELETE" 'http://localhost:5000/user/{user_id}/message?id={id1}+{id2}+{id3}'
 
 ## Other endpoints
 http://localhost:5000/user [GET]
