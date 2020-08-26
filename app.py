@@ -94,20 +94,29 @@ def get_user_id(identifier, identifier_type):
         else: 
             return user.id 
     elif identifier_type == 'email':
-        user = User.query.filter(func.lower(User.email) == func.lower(identifier)).first()
+        user = (User.query
+            .filter(func.lower(User.email) == func.lower(identifier))
+            .first())
         if user == None:
             return None
         else: 
             return user.id 
     else:
-        user = User.query.filter(func.lower(User.userName) == func.lower(identifier)).first()
+        user = (User.query
+            .filter(func.lower(User.userName) == func.lower(identifier))
+            .first())
         if user == None:
             return None
         else: 
             return user.id 
 
 def check_conv(receiver_id, sender_id):
-    conversation = Conversation.query.filter(or_(Conversation.user1 == sender_id, Conversation.user2 == sender_id)).filter(or_(Conversation.user1 == receiver_id, Conversation.user2 == receiver_id)).first()
+    conversation = (Conversation.query
+        .filter(or_(Conversation.user1 == sender_id,
+        Conversation.user2 == sender_id))
+        .filter(or_(Conversation.user1 == receiver_id,
+        Conversation.user2 == receiver_id))
+        .first())
     if conversation == None: 
         new_conversation = Conversation(sender_id, receiver_id)
         db.session.add(new_conversation)
@@ -267,9 +276,9 @@ def add_user():
     unique = check_if_unique(userName, email, phoneNumber)
     checked_input = check_new_user(userName, email, phoneNumber)
     if unique != None:
-        return jsonify(error = f'{unique.get("error_message")}')
+        return jsonify(error = f'{unique.get("error_message")}'), 400
     elif checked_input != None:
-        return jsonify(error = f'{checked_input.get("error_message")}')
+        return jsonify(error = f'{checked_input.get("error_message")}'), 400
     else:
         new_user = User(userName, email, phoneNumber)
         add_to_db(new_user)

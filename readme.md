@@ -12,7 +12,7 @@ Next, activate the Pipenv shell.
 $ pipenv shell
 
 Create database.  
-$ python3  
+$ python3 
 \>>> from app import db  
 \>>> db.create_all()
 
