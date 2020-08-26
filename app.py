@@ -238,13 +238,22 @@ def get_message(id):
         to_datetime = datetime.strptime(args.get('to'), '%Y-%m-%d %H:%M:%S')
 
         if status == 'all':
-            fetched_messages = Message.query.filter(Message.receiver_id == id , Message.created >= from_datetime, Message.created <= to_datetime).all()
+            fetched_messages = (Message.query
+                .filter(Message.receiver_id == id ,
+                Message.created >= from_datetime,
+                Message.created <= to_datetime)
+                .all())
             result = messages_schema.dump(fetched_messages)
             change_status(fetched_messages)
             return jsonify(result)
 
         elif status == 'unread': 
-            fetched_messages = Message.query.filter(Message.status == 'unread', Message.created >= from_datetime, Message.created <= to_datetime).all()
+            fetched_messages = (Message.query
+                .filter(Message.receiver_id == id,
+                Message.status == 'unread',
+                Message.created >= from_datetime,
+                Message.created <= to_datetime)
+                .all())
             result = messages_schema.dump(fetched_messages)
             change_status(fetched_messages)
             return jsonify(result)
